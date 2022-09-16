@@ -10,7 +10,7 @@
         <!--To-Do-->
         <scene sceneID="TXU-29-Cf1">
             <objects>
-                <tableViewController id="VMN-Yk-U6Z" customClass="TableViewController" customModule="ToDoList_SwiftBook_" customModuleProvider="target" sceneMemberID="viewController">
+                <tableViewController id="VMN-Yk-U6Z" customClass="TableViewController" customModule="CoreDataDemo" customModuleProvider="target" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="-1" estimatedSectionHeaderHeight="-1" sectionFooterHeight="-1" estimatedSectionFooterHeight="-1" id="wSx-EV-VOm">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -31,6 +31,11 @@
                         </connections>
                     </tableView>
                     <navigationItem key="navigationItem" title="To-Do" id="YUB-zj-jSk">
+                        <barButtonItem key="leftBarButtonItem" systemItem="stop" id="O1j-TI-Q8i">
+                            <connections>
+                                <action selector="deleteTask:" destination="VMN-Yk-U6Z" id="6wj-6j-D6s"/>
+                            </connections>
+                        </barButtonItem>
                         <barButtonItem key="rightBarButtonItem" systemItem="add" id="qHX-lV-eEY">
                             <connections>
                                 <action selector="addTask:" destination="VMN-Yk-U6Z" id="d5h-KY-0g1"/>

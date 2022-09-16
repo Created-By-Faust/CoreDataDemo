@@ -11,7 +11,29 @@ import CoreData
 class TableViewController: UITableViewController {
     
     var toDoItems: [TaskDo] = []
-
+    
+    @IBAction func deleteTask(_ sender: UIBarButtonItem) {
+        let appDelegate = UIApplication.shared.delegate as! AppDelegate
+        let context = appDelegate.persistentContainer.viewContext
+        
+        let fetchRequest: NSFetchRequest<TaskDo> = TaskDo.fetchRequest()
+        
+        if let tasks = try? context.fetch(fetchRequest) {
+            for task in tasks {
+                context.delete(task)
+            }
+        }
+        
+        
+        do {
+            try context.save()
+            print("Yeap! You delete all elements")
+        } catch {
+            print(error.localizedDescription)
+        }
+        tableView.reloadData()
+    }
+    
     @IBAction func addTask(_ sender: UIBarButtonItem) {
         
         let alertController = UIAlertController(title: "Add Task", message: "add new task", preferredStyle: .alert)
@@ -40,8 +62,8 @@ class TableViewController: UITableViewController {
         let appDelegate = UIApplication.shared.delegate as! AppDelegate
         let context = appDelegate.persistentContainer.viewContext
         
-        let entity = NSEntityDescription.entity(forEntityName: "TaskDo", in: context)
-        let taskObject = NSManagedObject(entity: entity!, insertInto: context) as! TaskDo
+        guard let entity = NSEntityDescription.entity(forEntityName: "TaskDo", in: context) else { return }
+        let taskObject = NSManagedObject(entity: entity, insertInto: context) as! TaskDo
         taskObject.taskToDo = taskToDo
         
         do {
