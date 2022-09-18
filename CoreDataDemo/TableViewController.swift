@@ -12,7 +12,7 @@ class TableViewController: UITableViewController {
     
     var toDoItems: [TaskDo] = []
     
-    @IBAction func deleteTask(_ sender: UIBarButtonItem) {
+    @IBAction func deleteTasks(_ sender: UIBarButtonItem) {
         let appDelegate = UIApplication.shared.delegate as! AppDelegate
         let context = appDelegate.persistentContainer.viewContext
         
@@ -122,50 +122,50 @@ class TableViewController: UITableViewController {
         return cell
     }
     
-
-    /*
-    // Override to support conditional editing of the table view.
+    //MARK: detete one element from table view
+    
     override func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
-        // Return false if you do not want the specified item to be editable.
         return true
     }
-    */
 
-    /*
-    // Override to support editing the table view.
     override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
-        if editingStyle == .delete {
-            // Delete the row from the data source
-            tableView.deleteRows(at: [indexPath], with: .fade)
-        } else if editingStyle == .insert {
-            // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view
-        }    
-    }
-    */
+        
+        
+        guard let taskToDelete = toDoItems[indexPath.row] as? TaskDo, editingStyle == .delete else { return }
+        
+        let appDelegate = UIApplication.shared.delegate as! AppDelegate
+        let context = appDelegate.persistentContainer.viewContext
 
-    /*
-    // Override to support rearranging the table view.
-    override func tableView(_ tableView: UITableView, moveRowAt fromIndexPath: IndexPath, to: IndexPath) {
+        context.delete(taskToDelete)
+        toDoItems.remove(at: indexPath.row)
+        
+        do {
+            try context.save()
+            self.tableView.deleteRows(at: [indexPath], with: .automatic)
+        } catch {
+            print(error.localizedDescription)
+        }
+        
+    }/*
+ self.toDoItems.remove(at: indexPath.row)
+ tableView.deleteRows(at: [indexPath], with: .fade)
 
-    }
-    */
+ let appDelegate = UIApplication.shared.delegate as! AppDelegate
+ let context = appDelegate.persistentContainer.viewContext
 
-    /*
-    // Override to support conditional rearranging of the table view.
-    override func tableView(_ tableView: UITableView, canMoveRowAt indexPath: IndexPath) -> Bool {
-        // Return false if you do not want the item to be re-orderable.
-        return true
-    }
-    */
+ let fetchRequest: NSFetchRequest<TaskDo> = TaskDo.fetchRequest()
+ 
+ let arrayData = try context.fetch(fetchRequest)
+ 
+ let elementToDelete = arrayData[indexPath.row]
 
-    /*
-    // MARK: - Navigation
+ context.delete(elementToDelete)
 
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destination.
-        // Pass the selected object to the new view controller.
-    }
-    */
+ do {
+     try context.save()
+ } catch {
+     print(error.localizedDescription)
 
+ }
+ */
 }
